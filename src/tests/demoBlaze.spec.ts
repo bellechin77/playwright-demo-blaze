@@ -10,7 +10,7 @@ test.describe('Demo Blaze Application', () => {
 
   // Before hook: Navigates to the homepage before each test
   test.beforeEach(async ({ page }) => {
-    await this.page.goto(`${this.page.context().baseURL()}/`);
+    await page.goto(`${page.context().baseURL()}/`);
     SignUpPage = new SignUpPage(page);
     LoginPage = new LoginPage(page);
     CartPage = new CartPage(page);
