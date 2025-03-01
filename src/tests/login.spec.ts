@@ -1,4 +1,4 @@
-import { LoginPage } from '../pages/LoginPage';
+import { LoginPage } from '../pages/LoginPage.ts';
 
 test('User can log in', async ({ page }) => {
   await page.goto('/');
