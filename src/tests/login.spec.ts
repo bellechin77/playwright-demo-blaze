@@ -1,6 +1,6 @@
 import { LoginPage } from '../pageObjects/LoginPage.ts';
 
-test('User can log in', async ({ page }) => {
+test.describe('User can log in', async ({ page }) => {
   await page.goto('/');
   const loginPage = new LoginPage(page);
   await loginPage.login('testuser', 'testpass');

@@ -1,6 +1,6 @@
 import { CartPage } from '../pageObjects/CartPage.ts';
 
-test('User can add a product to the cart', async ({ page }) => {
+test.describe('User can add a product to the cart', async ({ page }) => {
   await page.goto('/');
   const cartPage = new CartPage(page);
   await cartPage.addToCart('Samsung galaxy s6');
