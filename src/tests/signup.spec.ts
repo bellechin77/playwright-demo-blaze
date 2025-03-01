@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { SignUpPage } from '../pages/SignUpPage.ts';
+import { SignUpPage } from '../pageObjects/SignUpPage.ts';
 
 test('User can sign up', async ({ page }) => {
   await page.goto('/');

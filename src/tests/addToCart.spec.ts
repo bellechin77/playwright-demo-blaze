@@ -1,4 +1,4 @@
-import { CartPage } from '../pages/CartPage.ts';
+import { CartPage } from '../pageObjects/CartPage.ts';
 
 test('User can add a product to the cart', async ({ page }) => {
   await page.goto('/');
