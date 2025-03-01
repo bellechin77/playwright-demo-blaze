@@ -1,0 +1,12 @@
+{
+    "name": "playwright-demo-blaze",
+    "version": "1.0.0",
+    "scripts": {
+      "test": "playwright test",
+      "report": "playwright show-report"
+    },
+    "dependencies": {},
+    "devDependencies": {
+      "@playwright/test": "latest"
+    }
+  }  
