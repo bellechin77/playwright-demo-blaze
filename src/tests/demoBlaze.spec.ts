@@ -4,16 +4,13 @@ import { LoginPage } from '../pageObjects/LoginPage.ts';
 import { CartPage } from '../pageObjects/CartPage.ts';
 
 test.describe('Demo Blaze Application', () => {
-  let SignUpPage: SignUpPage;
-  let LoginPage: LoginPage;
-  let CartPage: CartPage;
 
   // Before hook: Navigates to the homepage before each test
   test.beforeEach(async ({ page, baseURL }) => {
     await page.goto('${baseURL}/');
-    SignUpPage = new SignUpPage(page);
-    LoginPage = new LoginPage(page);
-    CartPage = new CartPage(page);
+    const SignUpPage = new SignUpPage(page);
+    const LoginPage = new LoginPage(page);
+    const CartPage = new CartPage(page);
   });
 
   // After hook: Takes a screenshot if the test fails
