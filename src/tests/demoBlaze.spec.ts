@@ -36,10 +36,10 @@ test.describe('Demo Blaze Application', () => {
   });
 
   // Test 3: Add to cart
-  //test('User can add a product to the cart', async ({ page }) => {
-  //  const cartPage = new CartPage(page);
-  //  await cartPage.addToCart('Samsung galaxy s6');
-  //  await page.getByRole('link', { name: 'Cart' }).click();
-  //  await expect(page.getByText('Samsung galaxy s6')).toBeVisible();
-  //});
+  test('User can add a product to the cart', async ({ page }) => {
+    const cartPage = new CartPage(page);
+    await cartPage.addToCart('Samsung galaxy s6');
+    await page.getByRole('link', { name: 'Cart' }).click();
+    await expect(page.getByText('Samsung galaxy s6')).toBeVisible();
+  });
 });
