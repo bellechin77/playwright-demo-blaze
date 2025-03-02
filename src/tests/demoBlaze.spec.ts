@@ -8,9 +8,6 @@ test.describe('Demo Blaze Application', () => {
   // Before hook: Navigates to the homepage before each test
   test.beforeEach(async ({ page, baseURL }) => {
     await page.goto(`${baseURL}/`);
-    const signUpPage = new SignUpPage(page);
-    const loginPage = new LoginPage(page);
-    const cartPage = new CartPage(page);
   });
 
   // After hook: Takes a screenshot if the test fails
@@ -22,12 +19,14 @@ test.describe('Demo Blaze Application', () => {
 
   // Test 1: Sign Up
   test('User can sign up', async ({ page }) => {
+    const signUpPage = new SignUpPage(page);
     await signUpPage.signUp('testuser' + Date.now(), 'testpass');
     await expect(page.getByRole('button', { name: 'Sign up' })).toBeVisible();
   });
 
   // Test 2: Login
   test('User can log in', async ({ page }) => {
+    const loginPage = new LoginPage(page);
     await loginPage.login('testuser', 'testpass');
     await expect(page.getByText(/Welcome testuser/)).toBeVisible();
   
@@ -38,6 +37,7 @@ test.describe('Demo Blaze Application', () => {
 
   // Test 3: Add to cart
   test('User can add a product to the cart', async ({ page }) => {
+    const cartPage = new CartPage(page);
     await cartPage.addToCart('Samsung galaxy s6');
     await page.getByRole('link', { name: 'Cart' }).click();
     await expect(page.getByText('Samsung galaxy s6')).toBeVisible();
