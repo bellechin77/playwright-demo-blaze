@@ -48,7 +48,7 @@ test.describe('Demo Blaze Application', () => {
   test('User can add a product to the cart', async ({ page }) => {
     const cartPage = new CartPage(page);
     await cartPage.addToCart('Samsung galaxy s6');
-    await cartPage.getByRole('link', { name: 'Cart' , exact: true}).click();
+    await page.getByRole('link', { name: 'Cart', exact: true }).click()
     await expect(page.getByText('Samsung galaxy s6')).toBeVisible();
   });
 });
