@@ -25,15 +25,15 @@ test.describe('Demo Blaze Application', () => {
   });
 
   // Test 2: Login
-  //test('User can log in', async ({ page }) => {
-  //  const loginPage = new LoginPage(page);
-  //  await loginPage.login('testuser', 'testpass');
-  //  await expect(page.getByText(/Welcome testuser/)).toBeVisible();
+  test('User can log in', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.login('testuser', 'testpass');
+    await expect(page.getByText(/Welcome testuser/)).toBeVisible();
   
     // Non-retrying assertion
-  //  const loginSuccess = await page.getByText(/Welcome testuser/).isVisible();
-  //  expect(loginSuccess).toBeTruthy();
-  //});
+    const loginSuccess = await page.getByText(/Welcome testuser/).isVisible();
+    expect(loginSuccess).toBeTruthy();
+  });
 
   // Test 3: Add to cart
   //test('User can add a product to the cart', async ({ page }) => {
