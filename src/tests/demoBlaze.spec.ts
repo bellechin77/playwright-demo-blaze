@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { SignUpPage } from '../pageObjects/SignUpPage.ts';
 import { LoginPage } from '../pageObjects/LoginPage.ts';
 import { CartPage } from '../pageObjects/CartPage.ts';
+import fs from 'fs';
 
 test.describe('Demo Blaze Application', () => {
 
@@ -13,7 +14,11 @@ test.describe('Demo Blaze Application', () => {
   // After hook: Takes a screenshot if the test fails
   test.afterEach(async ({ page }, testInfo) => {
     if (testInfo.status !== testInfo.expectedStatus) {
-      await page.screenshot({ path: `screenshots/${testInfo.title}.png` });
+        // Ensure 'screenshots' directory exists
+        if (!fs.existsSync('screenshots')) {
+            fs.mkdirSync('screenshots');
+        }
+        await page.screenshot({ path: `screenshots/${testInfo.title}.png` });
     }
   });
 
