@@ -21,17 +21,17 @@ test.describe('Demo Blaze Application', () => {
   test('User can sign up', async ({ page }) => {
     const signUpPage = new SignUpPage(page);
     await signUpPage.signUp('testuser' + Date.now(), 'testpass');
-    await expect(signUpPage.getByRole('button', { name: 'Sign up' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Sign up' })).toBeVisible();
   });
 
   // Test 2: Login
   test('User can log in', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.login('testautouser', 'testautopass');
-    await expect(loginPage.getByText(/Welcome testautouser/)).toBeVisible();
+    await expect(page.getByText(/Welcome testautouser/)).toBeVisible();
   
     // Non-retrying assertion
-    const loginSuccess = await loginPage.getByText(/Welcome testautouser/).isVisible();
+    const loginSuccess = await page.getByText(/Welcome testautouser/).isVisible();
     expect(loginSuccess).toBeTruthy();
   });
 
@@ -39,7 +39,7 @@ test.describe('Demo Blaze Application', () => {
   test('User can add a product to the cart', async ({ page }) => {
     const cartPage = new CartPage(page);
     await cartPage.addToCart('Samsung galaxy s6');
-    await cartPage.getByRole('link', { name: 'Cart' }).click();
-    await expect(cartPage.getByText('Samsung galaxy s6')).toBeVisible();
+    await page.getByRole('link', { name: 'Cart' }).click();
+    await expect(page.getByText('Samsung galaxy s6')).toBeVisible();
   });
 });
