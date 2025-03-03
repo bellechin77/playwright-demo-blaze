@@ -36,6 +36,9 @@ export class CartPage {
 
       // Accept the dialog after confirming the success message
       await dialog.accept(); 
+
+      // Force a full page reload after adding to cart
+      await this.page.reload();  
     });
   }
 }
