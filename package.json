@@ -1,12 +1,21 @@
 {
-    "name": "playwright-demo-blaze",
-    "version": "1.0.0",
-    "scripts": {
-      "test": "playwright test",
-      "report": "playwright show-report"
-    },
-    "dependencies": {},
-    "devDependencies": {
-      "@playwright/test": "latest"
-    }
-  }  
+  "name": "demo-blaze-playwright",
+  "version": "1.0.0",
+  "description": "Automated test suite for the Demo Blaze application using Playwright.",
+  "main": "playwright.config.ts",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headless": "HEADLESS=true npx playwright test",
+    "test:chromium": "npx playwright test --project=Chromium",
+    "test:firefox": "npx playwright test --project=Firefox",
+    "test:webkit": "npx playwright test --project=WebKit",
+    "test:mobile": "npx playwright test --project='Mobile Chrome' && npx playwright test --project='Mobile Safari'",
+    "report": "npx playwright show-report"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.41.0"
+  },
+  "devDependencies": {},
+  "author": "Your Name",
+  "license": "MIT"
+}
