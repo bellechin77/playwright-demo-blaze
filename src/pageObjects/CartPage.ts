@@ -3,15 +3,24 @@ export class CartPage {
   
     async addToCart(productName: string) {  
  
-      const productTable = this.page.locator('#tbodyid'); // Locate the parent product table
-      const productLink = productTable.locator('tr', { hasText: productName }).locator('a'); // Locate product link
-      
-      await productLink.click(); // Click the nested product link
-      await this.page.getByRole('link', { name: 'Add to cart' }).click();
+        // Ensure the product table is loaded
+        await this.page.waitForSelector('#tbodyid');
 
-      // Wait for and handle the alert dialog
-      this.page.once('dialog', async (dialog) => {
-        await dialog.accept(); // Accepts the alert popup
-      });
-      }
+        // Locate the parent product table
+        const productTable = this.page.locator('#tbodyid');
+
+        // Locate the first matching product link
+        const productLink = productTable.locator('tr', { hasText: productName }).locator('a').first();
+        
+        // Ensure the product link is visible before clicking
+        await productLink.waitFor();
+        await productLink.click();
+
+        // Click "Add to cart" button
+        await this.page.getByRole('link', { name: 'Add to cart' }).click();
+
+        // Handle alert popup
+        this.page.once('dialog', async (dialog) => {
+            await dialog.accept(); // Accept the alert
+        });
   }
