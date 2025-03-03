@@ -10,16 +10,9 @@ export default defineConfig({
       },
     },
     {
-      name: 'Firefox',
+      name: 'Safari',
       use: {
-        browserName: 'firefox',
-        headless: process.env.HEADLESS === 'true',
-      },
-    },
-    {
-      name: 'WebKit',
-      use: {
-        browserName: 'webkit',
+        browserName: 'safari',
         headless: process.env.HEADLESS === 'true',
       },
     },
@@ -34,8 +27,8 @@ export default defineConfig({
     {
       name: 'Mobile Safari',
       use: {
-        browserName: 'webkit',
-        ...devices['iPhone 12'],
+        browserName: 'safari',
+        ...devices['iPhone 15'],
         headless: process.env.HEADLESS === 'true',
       },
     },

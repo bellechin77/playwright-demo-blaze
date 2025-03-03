@@ -22,16 +22,9 @@ export default defineConfig({
       },
     },
     {
-      name: 'Firefox',
+      name: 'Safari',
       use: {
-        browserName: 'firefox',
-        viewport: { width: 1280, height: 720 }, // Standard desktop viewport
-      },
-    },
-    {
-      name: 'WebKit',
-      use: {
-        browserName: 'webkit',
+        browserName: 'safari',
         viewport: { width: 1280, height: 720 }, // Standard desktop viewport
       },
     },
@@ -45,8 +38,8 @@ export default defineConfig({
     {
       name: 'Mobile Safari',
       use: {
-        browserName: 'webkit',
-        ...devices['iPhone 12'], // Emulate iPhone 12 device
+        browserName: 'safari',
+        ...devices['iPhone 15'], // Emulate iPhone 15 device
       },
     },
   ],
