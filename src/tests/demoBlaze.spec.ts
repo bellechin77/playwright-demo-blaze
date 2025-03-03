@@ -84,16 +84,14 @@ test.describe('Demo Blaze Application', () => {
         // Navigate to the Cart page
         await page.getByRole('link', { name: 'Cart', exact: true }).click();
 
+        // Ensure cart is updated in localStorage
+        await page.waitForFunction(() => {
+            const cart = localStorage.getItem('cart');
+            return cart && cart.includes('Nexus 6');
+        }, { timeout: 10000 });
+
         // Reload the cart page to ensure cart updates (fix for Firefox & WebKit)
         await page.reload();
-
-        // Ensure the cart contains the product by checking localStorage
-        const cartContainsProduct = await page.evaluate(() => {
-            const cart = localStorage.getItem('cart');
-            return cart ? cart.includes('Nexus 6') : false;
-        });
-
-        expect(cartContainsProduct).toBeTruthy();
 
         // Wait for the cart table to be populated
         await page.waitForFunction(() => {
