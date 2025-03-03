@@ -3,15 +3,15 @@ export class CartPage {
   
     async addToCart(productName: string) {  
  
-        // Ensure the product table is loaded
-        await this.page.waitForSelector('#tbodyid');
+        // Ensure the product grid is loaded
+        await this.page.waitForSelector('.card');
 
-        // Locate the parent product table
-        const productTable = this.page.locator('#tbodyid');
-
-        // Locate the first matching product link
-        const productLink = productTable.locator('tr', { hasText: productName }).locator('a').first();
-        
+        // Locate the product card that contains the specified product name
+        const productCard = this.page.locator('.card', { hasText: productName });
+  
+        // Locate the product link inside the card
+        const productLink = productCard.locator('a').first(); 
+          
         // Ensure the product link is visible before clicking
         await productLink.waitFor();
         await productLink.click();
