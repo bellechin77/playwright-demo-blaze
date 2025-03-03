@@ -84,11 +84,17 @@ test.describe('Demo Blaze Application', () => {
         // Navigate to the Cart page
         await page.getByRole('link', { name: 'Cart', exact: true }).click()
 
+        // Wait for the cart to contain at least one item
+        await page.waitForFunction(() => {
+            const cartItems = document.querySelectorAll('#tbodyid tr');
+            return cartItems.length > 0;
+        }, { timeout: 10000 }); // Increased timeout to 10s
+        
         // Assert that the added product is visible in the cart
         const cartTable = page.locator('#tbodyid'); // Locate the parent table body
         const productCell = cartTable.locator('tr', { hasText: 'Nexus 6' }).locator('td');
 
         // Ensure the product is displayed in the cart
-        await expect(productCell.first()).toBeVisible();
+        await expect(productCell.first()).toBeVisible({ timeout: 10000 });
     });
 });
