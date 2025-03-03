@@ -1,5 +1,5 @@
 {
-  "name": "demo-blaze-playwright",
+  "name": "playwright-demo-blaze",
   "version": "1.0.0",
   "description": "Automated test suite for the Demo Blaze application using Playwright.",
   "main": "playwright.config.ts",
