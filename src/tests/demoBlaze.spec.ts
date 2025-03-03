@@ -89,7 +89,8 @@ test.describe('Demo Blaze Application', () => {
 
         // Ensure the cart contains the product by checking localStorage
         const cartContainsProduct = await page.evaluate(() => {
-            return localStorage.getItem('cart')?.includes('Nexus 6');
+            const cart = localStorage.getItem('cart');
+            return cart ? cart.includes('Nexus 6') : false;
         });
 
         expect(cartContainsProduct).toBeTruthy();
