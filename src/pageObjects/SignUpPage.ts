@@ -26,6 +26,6 @@ export class SignUpPage {
 
     // Click the "Sign up" button to submit the form
     await this.page.getByRole('button', { name: 'Sign up' }).click();
-    }
   }
+}
   
