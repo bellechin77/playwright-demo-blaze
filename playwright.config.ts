@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  testDir: 'tests', // Define the test directory
+  testDir: 'src/tests',  // Set test directory 
+  testMatch: '**/*.spec.ts',  // Ensure it matches Playwright test files
   retries: 2, // Retry failed tests up to 2 times
   reporter: [['html', { outputFolder: 'playwright-report' }]], // HTML report generation
 
