@@ -7,8 +7,7 @@
     "test": "npx playwright test",
     "test:headless": "HEADLESS=true npx playwright test",
     "test:chromium": "npx playwright test --project=Chromium",
-    "test:firefox": "npx playwright test --project=Firefox",
-    "test:webkit": "npx playwright test --project=WebKit",
+    "test:webkit": "npx playwright test --project=Safari",
     "test:mobile": "npx playwright test --project='Mobile Chrome' && npx playwright test --project='Mobile Safari'",
     "report": "npx playwright show-report"
   },
