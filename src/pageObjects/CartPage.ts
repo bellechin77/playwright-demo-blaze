@@ -24,3 +24,4 @@ export class CartPage {
             await dialog.accept(); // Accept the alert
         });
   }
+}
