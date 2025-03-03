@@ -48,7 +48,8 @@ test.describe('Demo Blaze Application', () => {
   test('User can add a product to the cart', async ({ page }) => {
     const cartPage = new CartPage(page);
     await cartPage.addToCart('Samsung galaxy s6');
-
+    await page.getByRole('link', { name: 'Cart', exact: true }).click()
+    
     // Verify that the product cell is visible
     const cartTable = page.locator('#tbodyid'); // Locate the parent table body
     const productCell = cartTable.locator('tr', { hasText: 'Samsung galaxy s6' }).locator('td');
