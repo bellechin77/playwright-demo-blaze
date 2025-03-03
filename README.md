@@ -39,7 +39,7 @@ npx playwright install
 
 ## Configuration
 The **Playwright configuration** is defined in `playwright.config.ts` and `browser.config.ts`. It includes:
-- Multi-browser support (**Chromium, Firefox, WebKit**)
+- Multi-browser support (**Chromium, WebKit**)
 - Mobile device emulation (**Pixel 5, iPhone 12**)
 - Retry logic and test reporting
 - Environment variable support for **headless mode**
@@ -60,7 +60,6 @@ HEADLESS=true npx playwright test
 ### Run tests in a specific browser
 ```sh
 npx playwright test --project=chromium
-npx playwright test --project=firefox
 npx playwright test --project=webkit
 ```
 
