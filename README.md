@@ -27,8 +27,8 @@ Clone this repository and install the required dependencies:
 
 ```sh
 # Clone the repository
-git clone https://github.com/yourusername/demo-blaze-playwright.git
-cd demo-blaze-playwright
+git clone https://github.com/bellechin77/playwright-demo-blaze.git
+cd playwright-demo-blaze
 
 # Install dependencies
 npm install
