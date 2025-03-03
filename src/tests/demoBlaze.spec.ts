@@ -20,9 +20,9 @@ test.describe('Demo Blaze Application', () => {
         }
         
         // Take a screenshot with a safe file name
-        // await page.screenshot({ path: `screenshots/${testInfo.title}.png` });
         const fileName = testInfo.title.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
         await page.screenshot({ path: `screenshots/${fileName}` });
+        // await page.screenshot({ path: `screenshots/${testInfo.title}.png` });
     }
   });
 
@@ -48,7 +48,13 @@ test.describe('Demo Blaze Application', () => {
   test('User can add a product to the cart', async ({ page }) => {
     const cartPage = new CartPage(page);
     await cartPage.addToCart('Samsung galaxy s6');
-    await page.getByRole('link', { name: 'Cart', exact: true }).click()
-    await expect(page.getByText('Samsung galaxy s6')).toBeVisible();
-  });
+
+    // Verify that the product cell is visible
+    const cartTable = page.locator('#tbodyid'); // Locate the parent table body
+    const productCell = cartTable.locator('tr', { hasText: 'Samsung galaxy s6' }).locator('td');
+
+    await expect(productCell.first()).toBeVisible();
+    // await expect(page.getByText('Samsung galaxy s6')).toBeVisible();
+
+});
 });
