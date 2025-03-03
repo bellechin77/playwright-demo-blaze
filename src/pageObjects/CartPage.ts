@@ -21,7 +21,13 @@ export class CartPage {
 
         // Handle alert popup
         this.page.once('dialog', async (dialog) => {
-            await dialog.accept(); // Accept the alert
+          // Get the dialog message and check if it matches the expected text
+          const dialogMessage = dialog.message();
+    
+          // Assert that the dialog message is "Product added."
+          const addToCartSuccess = dialogMessage === 'Product added.';
+          expect(addToCartSuccess).toBeTruthy();
+          await dialog.accept(); // Accept the alert
         });
   }
 }

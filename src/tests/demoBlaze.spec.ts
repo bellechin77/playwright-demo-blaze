@@ -28,19 +28,39 @@ test.describe('Demo Blaze Application', () => {
   // Test 1: Sign Up
   test('User can sign up', async ({ page }) => {
     const signUpPage = new SignUpPage(page);
+    // Perform sign-up action
     await signUpPage.signUp('testuser' + Date.now(), 'testpass');
+    
+    // Listen for the dialog event (alert)
+    page.once('dialog', async (dialog) => {   
+        // Get the dialog message and check if it matches the expected text
+        const dialogMessage = dialog.message();
+    
+        // Assert that the dialog message is "Sign up successful."
+        const signUpSuccess = dialogMessage === 'Sign up successful.';
+        expect(signUpSuccess).toBeTruthy();
+    
+        // Accept the dialog
+        await dialog.accept();
+     });
+    
+    // Assert the "Sign up" button is visible after the sign-up attempt
     await expect(page.getByRole('button', { name: 'Sign up' })).toBeVisible();
   });
 
   // Test 2: Login
   test('User can log in', async ({ page }) => {
     const loginPage = new LoginPage(page);
+    // Perform login action
     await loginPage.login('testautouser', 'testautopass');
+
+    // Assert the welcome message is visible
     await expect(page.getByText(/Welcome testautouser/)).toBeVisible();
   
-    // Non-retrying assertion
-    const loginSuccess = await page.getByText(/Welcome testautouser/).isVisible();
-    expect(loginSuccess).toBeTruthy();
+    // Non-retrying assertion: To check if the "Log out" link is visible after login
+    const navMenu = page.locator('.navbar-nav'); // Locate the parent navigation menu
+    const logoutVisible = await navMenu.locator('a', { hasText: 'Log out' }).isVisible(); 
+    expect(logoutVisible).toBeTruthy(); 
   });
 
   // Test 3: Add to cart
