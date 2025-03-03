@@ -13,7 +13,7 @@ test.describe('Demo Blaze Application', () => {
 
   // After hook: Takes a screenshot if the test fails
   test.afterEach(async ({ page }, testInfo) => {
-    //if (testInfo.status !== testInfo.expectedStatus) {
+    if (testInfo.status !== testInfo.expectedStatus) {
         // Ensure 'screenshots' directory exists
         if (!fs.existsSync('screenshots')) {
             fs.mkdirSync('screenshots');
@@ -22,8 +22,7 @@ test.describe('Demo Blaze Application', () => {
         // Take a screenshot with a safe file name
         const fileName = testInfo.title.replace(/[^a-zA-Z0-9]/g, '_') + '.png';
         await page.screenshot({ path: `screenshots/${fileName}` });
-        // await page.screenshot({ path: `screenshots/${testInfo.title}.png` });
-    //}
+    }
   });
 
   // Test 1: Sign Up
