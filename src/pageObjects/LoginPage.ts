@@ -11,15 +11,6 @@ export class LoginPage {
    */
 
   async login(username: string, password: string) {
-    // Locate the parent navigation menu on the page
-    const navMenu = this.page.locator('.navbar-nav'); 
-    
-    // Locate the "Log in" link within the navigation menu
-    const loginLink = navMenu.locator('a', { hasText: 'Log in' }); 
-
-    // Click the "Log in" link to navigate to the login page
-    await loginLink.click(); 
-
     // Fill in the "Username" field on the login page
     await this.page.locator('#loginusername').fill(username);
 

@@ -1,3 +1,5 @@
+import { Page } from '@playwright/test';
+
 export class SignUpPage {
   // Constructor that accepts the Page object from Playwright
   constructor(private page: Page) {}
@@ -9,15 +11,6 @@ export class SignUpPage {
    */
 
   async signUp(username: string, password: string) {
-    // Locate the parent navigation menu on the page
-    const navMenu = this.page.locator('.navbar-nav'); 
-
-    // Locate the "Sign up" link within the navigation menu  
-    const signUpLink = navMenu.locator('a', { hasText: 'Sign up' }); 
-
-    // Click the "Sign up" link to navigate to the sign-up page
-    await signUpLink.click(); 
-
     // Fill in the "Username" field
     await this.page.getByRole('textbox', { name: 'Username' }).fill(username);
 

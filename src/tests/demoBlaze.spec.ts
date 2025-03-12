@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { SignUpPage } from '../pageObjects/SignUpPage.ts';
 import { LoginPage } from '../pageObjects/LoginPage.ts';
+import { ProductPage } from '../pageObjects/ProductPage.ts';
 import { CartPage } from '../pageObjects/CartPage.ts';
 import fs from 'fs';
 
@@ -9,10 +10,16 @@ test.describe('Demo Blaze Application', () => {
     // Before hook: Navigates to the homepage before each test
     test.beforeEach(async ({ page, baseURL }) => {
         await page.goto(`${baseURL}/`);
+
+        // Verify that the current URL matches the base URL
+        await expect(page).toHaveURL(new RegExp(`${baseURL}/`));
     });
 
-    // After hook: Takes a screenshot if the test fails
-    test.afterEach(async ({ page }, testInfo) => {
+    // After hook: Verify redirection to the home page & take a screenshot if the test fails
+    test.afterEach(async ({ page, baseURL }, testInfo) => {
+        await expect(page).toHaveURL(new RegExp(`${baseURL}/`));
+
+        // Capture a screenshot if test fails
         if (testInfo.status !== testInfo.expectedStatus) {
             // Ensure 'screenshots' directory exists
             if (!fs.existsSync('screenshots')) {
@@ -33,23 +40,17 @@ test.describe('Demo Blaze Application', () => {
         const signUpPage = new SignUpPage(page);
     
         // Perform sign-up action
+        await page.getByRole('link', { name: 'Sign up' }).click();
         await signUpPage.signUp('testuser' + Date.now(), 'testpass');
     
         // Listen for the dialog event (alert) after sign-up
-        page.once('dialog', async (dialog) => {   
-            // Get the dialog message and check if it matches the expected text
-            const dialogMessage = dialog.message();
-    
-            // Assert the dialog message indicates sign-up success
-            const signUpSuccess = dialogMessage === 'Sign up successful.';
-            expect(signUpSuccess).toBeTruthy();
-    
-            // Accept the dialog
-            await dialog.accept();
+        page.on('dialog', (dialog) => {
+            expect(dialog.message()).toBe('Sign up successful.');
+            dialog.dismiss(); 
         });
     
-        // Assert the "Sign up" button is still visible after the sign-up attempt
-        await expect(page.getByRole('button', { name: 'Sign up' })).toBeVisible();
+        // Assert the "Log in" link is visible after the sign-up 
+        await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
     });
 
     /**
@@ -60,15 +61,14 @@ test.describe('Demo Blaze Application', () => {
         const loginPage = new LoginPage(page);
     
         // Perform login action
+        await page.getByRole('link', { name: 'Log in' }).click();
         await loginPage.login('testautouser', 'testautopass');
 
         // Assert the welcome message is visible after login
         await expect(page.getByText(/Welcome testautouser/)).toBeVisible();
   
-        // Assert that "Log out" link is visible in the navigation menu after login
-        const navMenu = page.locator('.navbar-nav'); // Locate the parent navigation menu
-        const logoutVisible = await navMenu.locator('a', { hasText: 'Log out' }).isVisible(); 
-        expect(logoutVisible).toBeTruthy(); 
+        // Assert that "Log out" link is visible after login
+        await expect(page.getByRole('link', { name: 'Log out' })).toBeVisible();
     });
 
     /**
@@ -76,34 +76,32 @@ test.describe('Demo Blaze Application', () => {
     * Verifies the user can add a product to the shopping cart and see it in the cart.
     */
     test('User can add a product to the cart', async ({ page }) => {
-        const cartPage = new CartPage(page);
-    
+        const productPage = new ProductPage(page);
+
+        // Listen for every success alert when a product is added 
+        page.on('dialog', async (dialog) => {
+            expect(dialog.message()).toBe('Product added');
+            await dialog.accept(); 
+        });
+
+        // Locate the product card that contains the specified product name
+        const productCard = page.locator('.card-title > a').filter({ hasText: 'Nexus 6' });
+        await expect(productCard).toBeVisible();
+        const cardTitle = await productCard.innerText();
+        await productCard.click();
+
         // Add a product to the cart
-        await cartPage.addToCart('Nexus 6');
-    
+        await productPage.addToCart(cardTitle);        
+ 
         // Navigate to the Cart page
+        const cartPage = new CartPage(page);
         await page.getByRole('link', { name: 'Cart', exact: true }).click();
 
-        // Ensure cart is updated in localStorage
-        //await page.waitForFunction(() => {
-        //    const cart = localStorage.getItem('cart');
-        //    return cart && cart.includes('Nexus 6');
-        //}, { timeout: 10000 });
+        // Ensure that the cart table contains 1 item
+        await cartPage.checkNumberOfItemsInCart(1);
 
-        // Reload the cart page to ensure cart updates (fix for Firefox & WebKit)
-        await page.reload();
-
-        // Wait for the cart table to be populated
-        //await page.waitForFunction(() => {
-        //    const cartItems = document.querySelectorAll('#tbodyid tr');
-        //    return cartItems.length > 0;
-        //}, { timeout: 10000 });
-
-        // Assert that the added product is visible in the cart
-        const cartTable = page.locator('#tbodyid'); // Locate the parent table body
-        const productCell = cartTable.locator('tr', { hasText: 'Nexus 6' }).locator('td');
-
-        // Ensure the product is displayed in the cart
-        await expect(productCell.first()).toBeVisible();
+        // Return to home page
+        await page.getByRole('link', { name: 'Home' }).click();
+ 
     });
 });

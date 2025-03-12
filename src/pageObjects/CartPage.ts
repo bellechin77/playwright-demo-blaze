@@ -1,3 +1,5 @@
+import { Page, Locator, expect } from "@playwright/test";
+
 export class CartPage {
   // Constructor that accepts the Page object from Playwright  
   constructor(private page: Page) {}
@@ -7,38 +9,18 @@ export class CartPage {
    * @param productName - The name of the product to add to the cart
    */
 
-  async addToCart(productName: string) {  
-    
-    // Ensure the product grid is loaded
-    await this.page.waitForSelector('.card');
+  async checkNumberOfItemsInCart(itemCount: number) {  
 
-    // Locate the product card that contains the specified product name
-    const productCard = this.page.locator('.card', { hasText: productName });
-  
-    // Locate the product link inside the card
-    const productLink = productCard.locator('a').first(); 
-          
-    // Ensure the product link is visible before clicking
-    await productLink.waitFor();
-    await productLink.click();
+        // Check the cart has items added
+        const cartTable = this.page.locator('table').filter({ has: this.page.locator('tbody') });
+        await expect(cartTable).toBeVisible();
 
-    // Click the "Add to cart" link to add the product to the cart
-    await this.page.getByRole('link', { name: 'Add to cart' }).click();
+        // Validate the item count
+        const itemRows =  cartTable.locator('td').filter({ has: this.page.locator('a', { hasText: 'Delete' }) });
+        await expect(itemRows).toHaveCount(itemCount);  
+  };
 
-    // Listen for the dialog popup after adding the product to the cart
-    this.page.once('dialog', async (dialog) => {
-      // Get the dialog message and check if it matches the expected text
-      const dialogMessage = dialog.message();
-    
-      // Assert that the dialog message is "Product added."
-      const addToCartSuccess = dialogMessage === 'Product added.';
-      expect(addToCartSuccess).toBeTruthy();
-
-      // Accept the dialog after confirming the success message
-      await dialog.accept(); 
-
-      // Wait a moment to ensure the cart updates before navigation
-      await this.page.waitForTimeout(2000);
-    });
-  }
-}
+  async clickPlaceOrder() { 
+    await this.page.getByRole('button', { name: 'Place Order' }).click();
+  };
+};
