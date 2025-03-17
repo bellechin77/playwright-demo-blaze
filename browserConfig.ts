@@ -1,36 +1,10 @@
-import { defineConfig, devices } from '@playwright/test';
+import { BrowserTypeLaunchOptions, BrowserContextOptions } from '@playwright/test';
 
-export default defineConfig({
-  projects: [
-    {
-      name: 'Chromium',
-      use: {
-        browserName: 'chromium',
-        headless: process.env.HEADLESS === 'true',
-      },
-    },
-    {
-      name: 'Safari',
-      use: {
-        browserName: 'webkit',
-        headless: process.env.HEADLESS === 'true',
-      },
-    },
-    {
-      name: 'Mobile Chrome',
-      use: {
-        browserName: 'chromium',
-        ...devices['Pixel 5'],
-        headless: process.env.HEADLESS === 'true',
-      },
-    },
-    {
-      name: 'Mobile Safari',
-      use: {
-        browserName: 'webkit',
-        ...devices['iPhone 12'],
-        headless: process.env.HEADLESS === 'true',
-      },
-    },
-  ],
-});
+const browserConfig: BrowserTypeLaunchOptions & BrowserContextOptions = {
+  headless: false,  // Run in UI mode (set true for headless mode)
+  slowMo: 100,      // Adds delay between actions for debugging (in ms)
+  ignoreHTTPSErrors: true, // Ignore SSL errors for testing
+  viewport: { width: 1280, height: 720 }, // Default viewport
+};
+
+export default browserConfig;
